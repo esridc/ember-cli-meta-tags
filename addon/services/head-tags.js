@@ -20,13 +20,15 @@ export default Service.extend({
   // crawl up the active route stack and collect head tags
   collectHeadTags() {
     let tags = {};
-    let currentHandlerInfos = this.get('router._routerMicrolib.currentHandlerInfos');
+    // let currentHandlerInfos = this.get('router._routerMicrolib.currentHandlerInfos');
+    let currentHandlerInfos = this.get('router.targetState.routerJsState.routeInfos');
     if (!currentHandlerInfos) {
       currentHandlerInfos = this.get('router.router.currentHandlerInfos');
     }
     let handlerInfos = A(currentHandlerInfos);
     handlerInfos.forEach((handlerInfo) => {
-      assign(tags, this._extractHeadTagsFromRoute(handlerInfo.handler));
+      // assign(tags, this._extractHeadTagsFromRoute(handlerInfo.handler));
+      assign(tags, this._extractHeadTagsFromRoute(handlerInfo.route));
     });
     let tagArray = A(Object.keys(tags)).map((id) => tags[id]);
     this.set('headData.headTags', A(tagArray));

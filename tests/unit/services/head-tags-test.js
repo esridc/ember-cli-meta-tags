@@ -9,7 +9,7 @@ module('Unit | Service | head tags', function(hooks) {
   // Replace this with your real tests.
   test('it collects head tags from function', function(assert) {
     assert.expect(1);
-    let handler = {
+    let route = {
       headTags() {
         return [{
           type: 'link',
@@ -21,8 +21,10 @@ module('Unit | Service | head tags', function(hooks) {
     };
     let service = this.owner.factoryFor('service:head-tags').create({
       router: {
-        _routerMicrolib: {
-          currentHandlerInfos: [{ handler }]
+        targetState: {
+          routerJsState: {
+            routeInfos: [{ route }]
+          }
         }
       }
     });
@@ -43,7 +45,7 @@ module('Unit | Service | head tags', function(hooks) {
 
   test('it has fallback for pre-deprecated `router.router`', function(assert) {
     assert.expect(1);
-    let handler = {
+    let route = {
       headTags() {
         return [{
           type: 'link',
@@ -56,7 +58,7 @@ module('Unit | Service | head tags', function(hooks) {
     let service = this.owner.factoryFor('service:head-tags').create({
       router: {
         router: {
-          currentHandlerInfos: [{ handler }]
+          currentHandlerInfos: [{ route }]
         }
       }
     });
@@ -77,7 +79,7 @@ module('Unit | Service | head tags', function(hooks) {
 
   test('it collects head tags from CP', function(assert) {
     assert.expect(1);
-    let handler = {
+    let route = {
       headTags: computed(function() {
         return [{
           type: 'link',
@@ -89,8 +91,10 @@ module('Unit | Service | head tags', function(hooks) {
     };
     let service = this.owner.factoryFor('service:head-tags').create({
       router: {
-        _routerMicrolib: {
-          currentHandlerInfos: [{ handler }]
+        targetState: {
+          routerJsState: {
+            routeInfos: [{ route }]
+          }
         }
       }
     });
@@ -111,7 +115,7 @@ module('Unit | Service | head tags', function(hooks) {
 
   test('it collects head tags from property array', function(assert) {
     assert.expect(1);
-    let handler = {
+    let route = {
       headTags: [{
         type: 'link',
         attrs: {
@@ -121,8 +125,10 @@ module('Unit | Service | head tags', function(hooks) {
     };
     let service = this.owner.factoryFor('service:head-tags').create({
       router: {
-        _routerMicrolib: {
-          currentHandlerInfos: [{ handler }]
+        targetState: {
+          routerJsState: {
+            routeInfos: [{ route }]
+          }
         }
       }
     });
@@ -143,9 +149,9 @@ module('Unit | Service | head tags', function(hooks) {
 
   test('it collects nested tags', function(assert) {
     assert.expect(1);
-    let handlers = [
+    let routes = [
       {
-        handler: {
+        route: {
           headTags: [
             {
               type: 'link',
@@ -166,7 +172,7 @@ module('Unit | Service | head tags', function(hooks) {
           ]
         }
       },{
-        handler: {
+        route: {
           headTags() {
             return [
               {
@@ -192,8 +198,10 @@ module('Unit | Service | head tags', function(hooks) {
     ];
     let service = this.owner.factoryFor('service:head-tags').create({
       router: {
-        _routerMicrolib: {
-          currentHandlerInfos: handlers
+        targetState: {
+          routerJsState: {
+            routeInfos: routes
+          }
         }
       }
     });
